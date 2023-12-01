@@ -264,6 +264,7 @@ public class Controlador extends HttpServlet {
                             ve.setPrecio(listave.get(i).getPrecio());
                             vdao.guardarDetalleVentas(ve);
                         }
+                        listave.clear();
                         request.setAttribute("nro", nroFactura);
                         request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
                         break;
