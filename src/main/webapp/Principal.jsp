@@ -6,6 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    
     </head>
@@ -44,10 +45,11 @@
                         <ul class="dropdown-menu dropdown-menu-end text-center" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="#"><img src="img/user.jpg" alt="60" width="60"/></a></li>
                             <li><a class="dropdown-item" href="#">${usuario.getUser()}</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">${usuario.getNomSucursal()}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="Validar" method="POST">
+                                    
                                     <button class="dropdown-item" name="accion" value="Salir">Salir</button>
                                 </form>
                             </li>

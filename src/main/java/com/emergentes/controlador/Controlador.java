@@ -7,8 +7,6 @@ import com.emergentes.modelo.Empleados;
 import com.emergentes.modelo.EmpleadosDAO;
 import com.emergentes.modelo.Productos;
 import com.emergentes.modelo.ProductosDAO;
-import com.emergentes.modelo.Sucursales;
-import com.emergentes.modelo.SucursalesDAO;
 import com.emergentes.modelo.Ventas;
 import com.emergentes.modelo.VentasDAO;
 import java.io.IOException;
@@ -36,6 +34,7 @@ public class Controlador extends HttpServlet {
     int idc;
     int idp;
     int indiceEliminar;
+    int idv;
 
     Ventas ve = new Ventas();
     VentasDAO vdao = new VentasDAO();
@@ -43,8 +42,7 @@ public class Controlador extends HttpServlet {
     int item;
     double totalPagar;
     String nroFactura;
-    SucursalesDAO sdao = new SucursalesDAO();
-    List<Sucursales> datos = sdao.listar();
+
     List<Productos> cat = pdao.listarCategorias();
     List<Productos> marca = pdao.listarMarcas();
 
@@ -139,7 +137,7 @@ public class Controlador extends HttpServlet {
                         request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
                         break;
                     default:
-                        throw new AssertionError();
+                        request.getRequestDispatcher("Clientes.jsp").forward(request, response);
                 }
                 request.getRequestDispatcher("Clientes.jsp").forward(request, response);
                 break;
@@ -157,6 +155,7 @@ public class Controlador extends HttpServlet {
                         em.setDireccion(request.getParameter("txtDireccion"));
                         em.setUser(request.getParameter("txtUser"));
                         em.setPass(request.getParameter("txtPass"));
+                        em.setIdSucursal(Integer.parseInt(request.getParameter("txtSucursal")));
                         edao.insert(em);
                         request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
                         break;
@@ -184,7 +183,7 @@ public class Controlador extends HttpServlet {
                         request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
                         break;
                     default:
-                        throw new AssertionError();
+                        request.getRequestDispatcher("Empleados.jsp").forward(request, response);
                 }
                 request.getRequestDispatcher("Empleados.jsp").forward(request, response);
                 break;
@@ -198,7 +197,6 @@ public class Controlador extends HttpServlet {
                         request.setAttribute("cli", c);
                         request.setAttribute("lista", listave);
                         request.setAttribute("nro", nroFactura);
-                        request.setAttribute("opciones", datos);
                         request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
                         break;
                     case "BuscarProducto":
@@ -210,7 +208,6 @@ public class Controlador extends HttpServlet {
                         request.setAttribute("lista", listave);
                         request.setAttribute("totalPagar", totalPagar);
                         request.setAttribute("nro", nroFactura);
-                        request.setAttribute("opciones", datos);
                         request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
                         break;
                     case "Agregar":
@@ -221,7 +218,6 @@ public class Controlador extends HttpServlet {
                         ve = new Ventas();
                         ve.setItem(item);
                         ve.setIdProducto(p.getId());
-                        ve.setIdSucursal(Integer.parseInt(request.getParameter("codigoSucursal")));
                         ve.setDescripcionP(request.getParameter("nombreProducto"));
                         ve.setPrecio(Double.parseDouble(request.getParameter("precio")));
                         ve.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
@@ -233,7 +229,6 @@ public class Controlador extends HttpServlet {
                         request.setAttribute("totalPagar", totalPagar);
                         request.setAttribute("lista", listave);
                         request.setAttribute("nro", nroFactura);
-                        request.setAttribute("opciones", datos);
                         request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
                         break;
 
@@ -254,7 +249,6 @@ public class Controlador extends HttpServlet {
                         Empleados usuario = (Empleados) session.getAttribute("usuario");
                         ve.setIdCliente(c.getId());
                         ve.setIdEmpleado(usuario.getId());
-                        ve.setIdSucursal(1);
                         ve.setNroFactura(nroFactura);
                         ve.setFecha(LocalDateTime.now().toString());
                         ve.setMonto(totalPagar);
@@ -271,14 +265,10 @@ public class Controlador extends HttpServlet {
                             vdao.guardarDetalleVentas(ve);
                         }
                         request.setAttribute("nro", nroFactura);
-                        request.setAttribute("opciones", datos);
                         request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
                         break;
                     case "Eliminar":
-                        // Obten el índice del elemento a eliminar
                         indiceEliminar = Integer.parseInt(request.getParameter("id"));
-
-                        // Verifica que el índice esté dentro de los límites de la lista
                         if (indiceEliminar >= 0 && indiceEliminar < listave.size()) {
                             // Elimina el elemento de la lista
                             listave.remove(indiceEliminar);
@@ -289,21 +279,16 @@ public class Controlador extends HttpServlet {
                                 totalPagar = totalPagar + listave.get(i).getSubTotal();
                             }
 
-                            // Actualiza los atributos en la solicitud
                             request.setAttribute("totalPagar", totalPagar);
                             request.setAttribute("lista", listave);
                             request.setAttribute("nro", nroFactura);
                         }
                         item = item - 1;
                         ve.setItem(item);
-                        // Redirige de nuevo a la página "RegistrarVenta.jsp"
                         request.setAttribute("nro", nroFactura);
-                        request.setAttribute("opciones", datos);
                         request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
                         break;
                     default:
-
-                        request.setAttribute("opciones", datos);
                         nroFactura = vdao.generarFactura();
 
                         if (nroFactura == null) {
@@ -320,11 +305,19 @@ public class Controlador extends HttpServlet {
                 }
                 break;
             case "Ventas":
+                List listav = null;
+                List listad = null;
                 switch (accion) {
                     case "Listar":
-                        List listav = vdao.listar();
+                        listav = vdao.listar();
                         request.setAttribute("venta", listav);
                         request.getRequestDispatcher("Ventas.jsp").forward(request, response);
+                        break;
+                    case "View":
+                        idv = Integer.parseInt(request.getParameter("id"));
+                        listad = vdao.listarDetalle(idv);
+                        request.setAttribute("det", listad);
+                        request.getRequestDispatcher("DetalleVenta.jsp").forward(request, response);
                         break;
                     default:
                         throw new AssertionError();

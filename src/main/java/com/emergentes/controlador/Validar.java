@@ -30,10 +30,8 @@ public class Validar extends HttpServlet {
             String pass = request.getParameter("txtpass");
             em = edao.validar(user, pass);
             if (em.getUser() != null) {
-
                 session.setAttribute("usuario", em);
                 request.getRequestDispatcher("Controlador?menu=Inicio").forward(request, response);
-
             } else {
                 request.setAttribute("errorLogin", "Usuario o contraseña incorrectos");
                 request.getRequestDispatcher("Login.jsp").forward(request, response);

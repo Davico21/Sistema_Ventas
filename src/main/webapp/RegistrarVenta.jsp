@@ -18,14 +18,7 @@
                         <div class="card-body">
 
                             <form action="Controlador?menu=NuevaVenta" method="POST">
-                                <div class="form-group mb-3">
-                                    <select class="form-control" name="codigoSucursal">
-                                        <option value="" selected>Seleccionar sucursal</option>
-                                        <c:forEach var="opcion" items="${opciones}">
-                                            <option value="${opcion.getId()}">${opcion.getDireccion()}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
+                                
                                 <h5 class="card-title">Datos del Cliente</h5>
                                 <div class="mb-3 d-flex col-6">
                                     <input type="text" name="codigoCliente" value="${cli.getCi()}" class="form-control" placeholder="Codigo">
@@ -43,7 +36,7 @@
                                     <input type="text" name="nombreProducto" value="${pro.getNombres()}" class="form-control" placeholder="Producto">
                                 </div>
                                 <div class="mb-3 d-flex">
-                                    <input type="text" name="precio" value="${pro.getPrecio()}" class="form-control" placeholder="$/.0.00">
+                                    <input type="number" name="precio" value="${pro.getPrecio()}" class="form-control" placeholder="$/.0.00">
                                     <input type="number" name="cantidad" value="1" class="form-control ms-2" placeholder="Cantidad">
                                     <input type="number" name="stock" value="${pro.getStock()}" class="form-control ms-2" placeholder="Stock" readonly>
                                 </div>
@@ -58,7 +51,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="d-flex col-4 ms-auto">
+                            <div class="d-flex col-6 ms-auto">
                                 <label class="p-2">NroFactura:</label>
                                 <input type="text" name="txtNroFac" value="${nro}" class="form-control">
                             </div>
@@ -84,7 +77,7 @@
                                             <td>${item.getCantidad()}</td>
                                             <td>${item.getSubTotal()}</td>
                                             <td>
-                                                <a class="btn btn-danger btn-sm" href="Controlador?menu=NuevaVenta&accion=Eliminar&id=${loop.index}"><i class="bi bi-trash-fill"></i></a>
+                                                <a class="btn btn-danger btn-sm" href="Controlador?menu=NuevaVenta&accion=Eliminar&id=${loop.index}" onclick="return confirm('Estas Seguro?')"><i class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -92,7 +85,9 @@
                             </table>
                         </div>
                         <div class="card-footer d-flex">
+                            
                             <div class="col-6">
+                                
                                 <a class="btn btn-success" onclick="print()" href="Controlador?menu=NuevaVenta&accion=GenerarVenta">Generar Venta</a>
                             </div>
                             <div class="col-3 ms-auto">

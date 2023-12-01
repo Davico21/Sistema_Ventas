@@ -17,7 +17,7 @@ public class EmpleadosDAO {
 
     public Empleados validar(String usuario, String password) {
         Empleados em = new Empleados();
-        String sql = "select * from empleados where user = ? and password = ?";
+        String sql = "select * from empleados join sucursales using(idSucursal) where user = ? and password = ?";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -28,8 +28,11 @@ public class EmpleadosDAO {
                 em.setId(rs.getInt("idEmpleado"));
                 em.setNombres(rs.getString("nombres"));
                 em.setApellidos(rs.getString("apellidos"));
+                em.setTelefono(rs.getString("telefono"));
+                em.setDireccion(rs.getString("direccion"));
                 em.setUser(rs.getString("user"));
                 em.setPass(rs.getString("password"));
+                em.setNomSucursal(rs.getString("nombreSucursal"));
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener usuario:" + e.getMessage());
@@ -40,7 +43,7 @@ public class EmpleadosDAO {
     }
 
     public List listar() {
-        String sql = "select * from empleados";
+        String sql = "select * from vs_empleado";
         List<Empleados> lista = new ArrayList<>();
         try {
             con = cn.Conexion();
@@ -50,12 +53,14 @@ public class EmpleadosDAO {
                 Empleados em = new Empleados();
                 em.setId(rs.getInt("idEmpleado"));
                 em.setCi(rs.getString("ci"));
+                em.setNomSucursal(rs.getString("nombreSucursal"));
                 em.setNombres(rs.getString("nombres"));
                 em.setApellidos(rs.getString("apellidos"));
                 em.setTelefono(rs.getString("telefono"));
                 em.setDireccion(rs.getString("direccion"));
                 em.setUser(rs.getString("user"));
                 em.setPass(rs.getString("password"));
+                
                 lista.add(em);
             }
         } catch (SQLException e) {
@@ -66,7 +71,7 @@ public class EmpleadosDAO {
     }
 
     public void insert(Empleados em) {
-        String sql = "insert into empleados(ci,nombres,apellidos,telefono,direccion,user,password) values(?,?,?,?,?,?,?);";
+        String sql = "insert into empleados(ci,nombres,apellidos,telefono,direccion,idSucursal,user,password) values(?,?,?,?,?,?,?,?);";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -76,8 +81,9 @@ public class EmpleadosDAO {
             ps.setString(3, em.getApellidos());
             ps.setString(4, em.getTelefono());
             ps.setString(5, em.getDireccion());
-            ps.setString(6, em.getUser());
-            ps.setString(7, em.getPass());
+            ps.setInt(6, em.getIdSucursal());
+            ps.setString(7, em.getUser());
+            ps.setString(8, em.getPass());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -97,6 +103,7 @@ public class EmpleadosDAO {
             while (rs.next()) {
                 em.setId(rs.getInt("idEmpleado"));
                 em.setCi(rs.getString("ci"));
+                em.setIdSucursal(rs.getInt("idSucursal"));
                 em.setNombres(rs.getString("nombres"));
                 em.setApellidos(rs.getString("apellidos"));
                 em.setTelefono(rs.getString("telefono"));

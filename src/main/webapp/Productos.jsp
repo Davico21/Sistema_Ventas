@@ -54,9 +54,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="d-flex gap-3">
                                     <input type="submit" name="accion" value="Agregar" class="btn btn-primary">
-                                    <input type="submit" name="accion" value="Actualizar" class="btn btn-success">
+                                    <input type="submit" name="accion" value="Actualizar" class="btn btn-secondary  ">
                                 </div>
                             </form>
                         </div>
@@ -91,7 +91,7 @@
                                             <td>${item.getIdMarca()}</td>
                                             <td>
                                                 <a class="btn btn-warning btn-sm" href="Controlador?menu=Productos&accion=Editar&id=${item.getId()}"><i class="bi bi-pencil-square"></i></a>
-                                                <a class="btn btn-danger btn-sm" href="Controlador?menu=Productos&accion=Eliminar&id=${item.getId()}"><i class="bi bi-trash-fill"></i></a>
+                                                <a class="btn btn-danger btn-sm" href="Controlador?menu=Productos&accion=Eliminar&id=${item.getId()}" onclick="return confirm('Estas Seguro?')"><i class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>

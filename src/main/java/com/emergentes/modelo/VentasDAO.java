@@ -34,16 +34,15 @@ public class VentasDAO {
     }
 
     public void guardarVenta(Ventas ve) {
-        String sql = "insert into ventas(idCliente,idEmpleado,IdSucursal,factura,fecha,monto) values (?,?,?,?,?,?)";
+        String sql = "insert into ventas(idCliente,idEmpleado,factura,fecha,monto) values (?,?,?,?,?)";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
             ps.setInt(1, ve.getIdCliente());
             ps.setInt(2, ve.getIdEmpleado());
-            ps.setInt(3, ve.getIdSucursal());
-            ps.setString(4, ve.getNroFactura());
-            ps.setString(5, ve.getFecha());
-            ps.setDouble(6, ve.getMonto());
+            ps.setString(3, ve.getNroFactura());
+            ps.setString(4, ve.getFecha());
+            ps.setDouble(5, ve.getMonto());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al insertar venta: " + e.getMessage());
@@ -85,9 +84,7 @@ public class VentasDAO {
     }
 
     public List listar() {
-        String sql = "select v.idVenta,c.nombres,e.nombres,s.direccion,v.factura,v.fecha,v.monto\n"
-                + "from clientes c, empleados e, sucursales s, ventas v\n"
-                + "where c.idCliente = v.idCliente and e.idEmpleado = v.idEmpleado and s.idSucursal = v.idSucursal;";
+        String sql = "select * from  vs_venta";
         List<Ventas> lista = new ArrayList<>();
         try {
             con = cn.Conexion();
@@ -106,6 +103,32 @@ public class VentasDAO {
             }
         } catch (SQLException e) {
             System.out.println("error al listar venta:" + e.getMessage());
+        }
+        cn.desconetar();
+        return lista;
+    }
+
+    public List listarDetalle(int id) {
+        
+        String sql = "select d.idVenta, p.nombre,d.cantidad,d.precio\n"
+                + "from detalle_ventas d natural join productos p \n"
+                + "where d.idVenta = ?";
+        List<Ventas> lista = new ArrayList<>();
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Ventas ve = new Ventas();
+                ve.setId(rs.getInt(1));
+                ve.setNomProducto(rs.getString(2));
+                ve.setCantidad(rs.getInt(3));
+                ve.setPrecio(rs.getDouble(4));
+                lista.add(ve);
+            }
+        } catch (SQLException e) {
+            System.out.println("error al listar detalle:" + e.getMessage());
         }
         cn.desconetar();
         return lista;

@@ -5,10 +5,8 @@ public class Ventas {
     int id;
     int item;
     int idCliente;
-
     int idEmpleado;
     int idProducto;
-    int idSucursal;
     String nroFactura;
     String descripcionP;
     String fecha;
@@ -19,7 +17,8 @@ public class Ventas {
     String estado;
     String nomCliente;
     String nomEmpleado;
-    String Direccion;
+    String nomProducto;
+    String direccion;
 
     public Ventas() {
     }
@@ -63,15 +62,6 @@ public class Ventas {
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
-
-    public int getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(int idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
     public String getNroFactura() {
         return nroFactura;
     }
@@ -152,12 +142,24 @@ public class Ventas {
         this.nomEmpleado = nomEmpleado;
     }
 
-    public String getDireccion() {
-        return Direccion;
+    public String getNomProducto() {
+        return nomProducto;
     }
 
-    public void setDireccion(String Direccion) {
-        this.Direccion = Direccion;
+    public void setNomProducto(String nomProducto) {
+        this.nomProducto = nomProducto;
     }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+   
+
+
 
 }

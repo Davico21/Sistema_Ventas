@@ -10,6 +10,8 @@ public class Empleados {
     String direccion;
     String user;
     String pass;
+    int idSucursal;
+    String nomSucursal;
 
     public Empleados() {
     }
@@ -77,7 +79,21 @@ public class Empleados {
     public void setPass(String pass) {
         this.pass = pass;
     }
-    
-    
+
+    public int getIdSucursal() {
+        return idSucursal;
+    }
+
+    public void setIdSucursal(int idSucursal) {
+        this.idSucursal = idSucursal;
+    }
+
+    public String getNomSucursal() {
+        return nomSucursal;
+    }
+
+    public void setNomSucursal(String nomSucursal) {
+        this.nomSucursal = nomSucursal;
+    }
     
 }

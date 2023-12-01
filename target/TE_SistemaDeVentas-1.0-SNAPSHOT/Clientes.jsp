@@ -23,19 +23,19 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="txtNombres" class="form-label">Nombres:</label>
-                                    <input type="text" value="" name="txtNombres" id="txtNombres" class="form-control">
+                                    <input type="text" value="${cli.getNombres()}" name="txtNombres" id="txtNombres" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label for="txtApellidos" class="form-label">Apellidos:</label>
-                                    <input type="text" value="" name="txtApellidos" id="txtApellidos" class="form-control">
+                                    <input type="text" value="${cli.getApellidos()}" name="txtApellidos" id="txtApellidos" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label for="txtTelefono" class="form-label">Telefono:</label>
-                                    <input type="text" value="" name="txtTelefono" id="txtTelefono" class="form-control">
+                                    <input type="text" value="${cli.getTelefono()}" name="txtTelefono" id="txtTelefono" class="form-control">
                                 </div>
-                                <div class="mb-3">
+                                <div class="d-flex gap-3">
                                     <input type="submit" name="accion" value="Agregar" class="btn btn-primary">
-                                    <input type="submit" name="accion" value="Actualizar" class="btn btn-success">
+                                    <input type="submit" name="accion" value="Actualizar" class="btn btn-secondary">
                                 </div>
                             </form>
                         </div>
@@ -66,7 +66,7 @@
                                             <td>${item.getTelefono()}</td>
                                             <td>
                                                 <a class="btn btn-warning btn-sm" href="Controlador?menu=Clientes&accion=Editar&id=${item.getId()}"><i class="bi bi-pencil-square"></i></a>
-                                                <a class="btn btn-danger btn-sm" href="Controlador?menu=Clientes&accion=Eliminar&id=${item.getId()}"><i class="bi bi-trash-fill"></i></a>
+                                                <a class="btn btn-danger btn-sm" href="Controlador?menu=Clientes&accion=Eliminar&id=${item.getId()}" onclick="return confirm('Estas Seguro?')"><i class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>

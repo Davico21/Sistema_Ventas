@@ -19,9 +19,15 @@
                         <div class="card-body">
                             <h3 class="font-monospace text-center">Empleado</h3>
                             <form action="Controlador?menu=Empleados" method="POST">
-                                <div class="col-6 mb-3 ">
-                                    <label for="ci" class="form-label">CI:</label>
-                                    <input type="text" id="ci" value="${emp.getCi()}" name="txtCi" class="form-control">
+                                <div class="row mb-3 ">
+                                    <div class="col">
+                                        <label for="ci" class="form-label">CI:</label>
+                                        <input type="text" id="ci" value="${emp.getCi()}" name="txtCi" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <label for="suc" class="form-label">Sucursal:</label>
+                                        <input type="number" id="suc" value="${emp.getIdSucursal()}" name="txtSucursal" class="form-control">
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
@@ -72,6 +78,7 @@
                                     <tr>
                                         <th>IdEmp</th>
                                         <th>Ci</th>
+                                        <th>Sucursal</th>
                                         <th>Nombres</th>
                                         <th>Apellidos</th>
                                         <th>Telefono</th>
@@ -85,6 +92,7 @@
                                         <tr>
                                             <td>${item.getId()}</td>
                                             <td>${item.getCi()}</td>
+                                            <td>${item.getNomSucursal()}</td>
                                             <td>${item.getNombres()}</td>
                                             <td>${item.getApellidos()}</td>
                                             <td>${item.getTelefono()}</td>
@@ -92,13 +100,36 @@
                                             <td>${item.getUser()}</td>
                                             <td>
                                                 <a class="btn btn-warning" href="Controlador?menu=Empleados&accion=Editar&id=${item.getId()}"><i class="bi bi-pencil-square"></i></a>
-                                                <a class="btn btn-danger" href="Controlador?menu=Empleados&accion=Eliminar&id=${item.getId()}"><i class="bi bi-trash-fill"></i></a>
+                                                <a class="btn btn-danger" href="Controlador?menu=Empleados&accion=Eliminar&id=${item.getId()}" onclick="return confirm('Estas Seguro?')"><i class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Button trigger modal -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Seguro que quiere eliminar al empleado???</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a class="btn btn-danger" href="Controlador?menu=Empleados&accion=Eliminar&id=${item.getId()}"><i class="bi bi-trash-fill"></i></a>
                     </div>
                 </div>
             </div>
